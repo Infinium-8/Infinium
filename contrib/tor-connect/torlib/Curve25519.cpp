@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2021, Chinet project, https://chinet.io
+ * Copyright (c) 2023-2024 Infinium Developers
  * Copyright (c) 2021, Mikhail Butolin, bml505@hotmail.com
  * Copyright 2008, Google Inc.
  * All rights reserved.

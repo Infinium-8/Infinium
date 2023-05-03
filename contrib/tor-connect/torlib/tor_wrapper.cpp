@@ -1,6 +1,6 @@
 
 /*-
-* Copyright (c) 2021, Chinet project, https://chinet.io
+* Copyright (c) 2023-2024 Infinium Developers
 * Copyright (c) 2021, Mikhail Butolin, bml505@hotmail.com
 * Copyright (c) 2009, Moxie Marlinspike
 * All rights reserved.
