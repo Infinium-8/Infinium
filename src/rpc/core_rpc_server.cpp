@@ -171,7 +171,7 @@ namespace currency
       currency::block b = AUTO_VAL_INIT(b);
       m_core.get_blockchain_storage().get_top_block(b);
       res.last_block_total_reward = currency::get_reward_from_miner_tx(b.miner_tx);
-      res.pos_diff_total_coins_rate = (pos_diff / (total_coins + 1)).convert_to<uint64_t>();
+      res.pos_diff_total_coins_rate = (pos_diff / (total_coins - PREMINE_AMOUNT + 1)).convert_to<uint64_t>();
       res.last_block_timestamp = b.timestamp;
       res.last_block_hash = string_tools::pod_to_hex(get_block_hash(b));
     }
