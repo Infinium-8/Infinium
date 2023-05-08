@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": "0",
+  "method": "getblocktemplate",
+  "params": {
+    "extra_text": "Some text info about miner",
+    "wallet_address": "infi8AdGovbQ5C6rB5Tn9h9GVM951y4X6TXN87iuVrwu8Ufrm8hhY8LCuyAHti9kiRgyJ1Ey6isr63rJTkqtNR7MVhwGYRb98Gr",
+    "stakeholder_address": "infi8AdGovbQ5C6rB5Tn9h9GVM951y4X6TXN87iuVrwu8Ufrm8hhY8LCuyAHti9kiRgyJ1Ey6isr63rJTkqtNR7MVhwGYRb98Gr",
+    "pos_block": false,
+    "pos_amount": 0,
+    "pos_index": 0
+  }
+}

@@ -1,0 +1,17 @@
+{
+	"payments": [
+		{
+			"address_this": "",
+			"amount_this_coin_int": 60000000000000000000
+		},
+		{
+			"address_this": "",
+			"amount_this_coin_int": 2500000000000000000
+		},
+		{
+			"address_this": "",
+			"amount_this_coin_int": 2500000000000000000
+		}
+	],
+	"proof_string": "2EC6F962FC3D460897C2CEFE51D3097AA66C000B"
+}
