@@ -4,8 +4,6 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-
-
 #include "include_base_utils.h"
 #include "version.h"
 #include "epee/include/gzip_encoding.h"
@@ -25,16 +23,12 @@ using namespace epee;
 #include "storages/http_abstract_invoke.h"
 #include "net/http_client.h"
 #include "currency_core/genesis_acc.h"
+#include "currency_core/currency_config.h"
 #include <cstdlib>
 
 namespace po = boost::program_options;
 using namespace currency;
 using namespace nodetool;
-
-
-
-
-
 
 namespace
 {
@@ -287,7 +281,7 @@ void process_payment_entrie(payment_method_summary& pms, const std::string& amou
 
 uint64_t get_total_from_payments_stat(const std::map<std::string, payment_method_summary>& payments_stat)
 {
-  uint64_t total_this = 0;
+  uint64_t total_this = PREMINE_AMOUNT;
   for (const auto& se : payments_stat)
   {
     total_this += se.second.amount_paid_this;
@@ -353,7 +347,7 @@ bool generate_genesis(const std::string& path_config, uint64_t premine_split_amo
     bool r = get_account_address_from_str(de.addr.back(), p.address_this);
     CHECK_AND_ASSERT_MES(r, false, "wrong address string: " << p.address_this);
 
-    de.amount = p.amount_this_coin_int; //std::cout << de.amount << ENDL;
+    de.amount = PREMINE_AMOUNT; //std::cout << de.amount << ENDL;
     summary_premine_coins += de.amount;
     destinations.push_back(de);
 
@@ -382,7 +376,7 @@ bool generate_genesis(const std::string& path_config, uint64_t premine_split_amo
       }
   }
 
-  uint64_t total_this = 0;
+  uint64_t total_this = PREMINE_AMOUNT;
   double total_usd_eq = 0;
 #define COLUMN_INTERVAL_LAYOUT 30
   std::stringstream ss;
@@ -1353,7 +1347,7 @@ int main(int argc, char* argv[])
   }
   else if (command_line::has_arg(vm, arg_generate_genesis))
   {
-    return generate_genesis(command_line::get_arg(vm, arg_generate_genesis), 10000000000000000) ? EXIT_SUCCESS : EXIT_FAILURE;
+    return generate_genesis(command_line::get_arg(vm, arg_generate_genesis), 100000000) ? EXIT_SUCCESS : EXIT_FAILURE;
   }
   else if (command_line::has_arg(vm, arg_set_peer_log_level))
   {

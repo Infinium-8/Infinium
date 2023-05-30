@@ -8,15 +8,13 @@
 
 
 #ifndef TESTNET
-#define CURRENCY_FORMATION_VERSION                      84
+#define CURRENCY_FORMATION_VERSION                      86
 #else
-#define CURRENCY_FORMATION_VERSION                      88
+#define CURRENCY_FORMATION_VERSION                      90
 #endif
 
 #define CURRENCY_GENESIS_NONCE                          (CURRENCY_FORMATION_VERSION + 101011010121) //bender's nightmare
 
-
-                                                        
 #define CURRENCY_MAX_BLOCK_NUMBER                       500000000
 #define CURRENCY_MAX_BLOCK_SIZE                         500000000  // block header blob limit, never used!
 #define CURRENCY_TX_MAX_ALLOWED_OUTS                    2000
@@ -33,27 +31,27 @@
 #define CURRENT_BLOCK_MINOR_VERSION                     0
 #define CURRENCY_BLOCK_FUTURE_TIME_LIMIT                60*60*2
 #define CURRENCY_POS_BLOCK_FUTURE_TIME_LIMIT            60*20
-                                                        
+
 #define BLOCKCHAIN_TIMESTAMP_CHECK_WINDOW               60
-                                                        
+
 #define POS_START_HEIGHT                                0
-                                                        
+
 #define CURRENCY_REWARD_BLOCKS_WINDOW                   400
 #define CURRENCY_BLOCK_GRANTED_FULL_REWARD_ZONE         125000 //size of block (bytes) after which reward for block calculated using block size
 #define CURRENCY_COINBASE_BLOB_RESERVED_SIZE            1100
 #define CURRENCY_MAX_TRANSACTION_BLOB_SIZE              (CURRENCY_BLOCK_GRANTED_FULL_REWARD_ZONE - CURRENCY_COINBASE_BLOB_RESERVED_SIZE*2) 
 #define CURRENCY_FREE_TX_MAX_BLOB_SIZE                  1024 // soft txpool-based limit for free-of-charge txs (such as BC_OFFERS_SERVICE_INSTRUCTION_DEL)
-#define CURRENCY_DISPLAY_DECIMAL_POINT                  12
+#define CURRENCY_DISPLAY_DECIMAL_POINT                  8
 
 // COIN - number of smallest units in one coin
-#define COIN                                            ((uint64_t)1000000000000) // pow(10, CURRENCY_DISPLAY_DECIMAL_POINT)
-#define BASE_REWARD_DUST_THRESHOLD                      ((uint64_t)1000000) // pow(10, 6) - change this will cause hard-fork!
+#define COIN                                            ((uint64_t)100000000) // pow(8, CURRENCY_DISPLAY_DECIMAL_POINT)
+#define BASE_REWARD_DUST_THRESHOLD                      ((uint64_t)100) // pow(8, 2) - change this will cause hard-fork!
 #define DEFAULT_DUST_THRESHOLD                          ((uint64_t)0)
 
-#define TX_DEFAULT_FEE                                  ((uint64_t)1000000000) // .001
-#define TX_MINIMUM_FEE                                  ((uint64_t)1000000000) // .001
+#define TX_DEFAULT_FEE                                  ((uint64_t)1000000) // .01000000
+#define TX_MINIMUM_FEE                                  ((uint64_t)1000000) // .01000000
 
-#define CURRENCY_BLOCK_REWARD                           ((uint64_t)1000000000000) // 1.0 coin == pow(10, CURRENCY_DISPLAY_DECIMAL_POINT)
+#define CURRENCY_BLOCK_REWARD                           ((uint64_t)100000000) // 1.0 coin == pow(8, CURRENCY_DISPLAY_DECIMAL_POINT)
 
 
 #define WALLET_MAX_ALLOWED_OUTPUT_AMOUNT                ((uint64_t)0xffffffffffffffffLL)
@@ -89,8 +87,8 @@
 #define BLOCKS_IDS_SYNCHRONIZING_DEFAULT_COUNT          2000      //by default, blocks ids count in synchronizing
 #define BLOCKS_SYNCHRONIZING_DEFAULT_COUNT              200       //by default, blocks count in blocks downloading
 #define BLOCKS_SYNCHRONIZING_DEFAULT_SIZE               2000000   //by default keep synchronizing packets not bigger then 2MB
-#define CURRENCY_PROTOCOL_MAX_BLOCKS_REQUEST_COUNT      500     
-#define CURRENCY_PROTOCOL_MAX_TXS_REQUEST_COUNT         500    
+#define CURRENCY_PROTOCOL_MAX_BLOCKS_REQUEST_COUNT      500
+#define CURRENCY_PROTOCOL_MAX_TXS_REQUEST_COUNT         500
 
 
 #define CURRENCY_ALT_BLOCK_LIVETIME_COUNT               (CURRENCY_BLOCKS_PER_DAY*7)//one week
@@ -99,18 +97,18 @@
 
 
 #ifndef TESTNET
-#define P2P_DEFAULT_PORT                                11121
-#define RPC_DEFAULT_PORT                                11211
-#define STRATUM_DEFAULT_PORT                            11777
+#define P2P_DEFAULT_PORT                                31111
+#define RPC_DEFAULT_PORT                                31112
+#define STRATUM_DEFAULT_PORT                            31113
 #define P2P_NETWORK_ID_TESTNET_FLAG                     0
-#define P2P_MAINTAINERS_PUB_KEY                         "8f138bb73f6d663a3746a542770781a09579a7b84cb4125249e95530824ee607"
+#define P2P_MAINTAINERS_PUB_KEY                         "8f138bb73f6d663a3746a542770781a09579a7b84cb4125249e95530824ee648"
 #else 
-#define P2P_DEFAULT_PORT                                (11112 + CURRENCY_FORMATION_VERSION)
-#define RPC_DEFAULT_PORT                                12111
-#define STRATUM_DEFAULT_PORT                            11888
-#define STRARUM_DEFAULT_PORT                            51113
+#define P2P_DEFAULT_PORT                                41111 
+#define RPC_DEFAULT_PORT                                41112
+#define STRATUM_DEFAULT_PORT                            41113
+#define STRARUM_DEFAULT_PORT                            41114
 #define P2P_NETWORK_ID_TESTNET_FLAG                     1
-#define P2P_MAINTAINERS_PUB_KEY                         "aaa2d7aabc8d383fd53a3ae898697b28f236ceade6bafc1eecff413a6a02272a"
+#define P2P_MAINTAINERS_PUB_KEY                         "aaa2d7aabc8d383fd53a3ae898697b28f236ceade6bafc1eecff413a6a02275a"
 #endif
 
 #define P2P_NETWORK_ID_VER                              (CURRENCY_FORMATION_VERSION+0)
@@ -138,7 +136,7 @@
 //PoS definitions
 #define POS_SCAN_WINDOW                                 60*10 //seconds // 10 minutes
 #define POS_SCAN_STEP                                   15    //seconds
-#define POS_MAX_ACTUAL_TIMESTAMP_TO_MINED               (POS_SCAN_WINDOW+100)                       
+#define POS_MAX_ACTUAL_TIMESTAMP_TO_MINED               (POS_SCAN_WINDOW+100)
 
 #define POS_STARTER_KERNEL_HASH                         "00000000000000000006382a8d8f94588ce93a1351924f6ccb9e07dd287c6e4b"
 #define POS_MODFIFIER_INTERVAL                          10
@@ -180,7 +178,7 @@
 #endif
 
 //premine
-#define PREMINE_AMOUNT                                  ((uint64_t)65000001000000000000U) // 60.000.000 swap old chain + 5.000.000 dev fund
+#define PREMINE_AMOUNT                                  ((uint64_t)7000000000000000) 
 
 //alias registration wallet
 #define ALIAS_REWARDS_ACCOUNT_SPEND_PUB_KEY             "0000000000000000000000000000000000000000000000000000000000000000" //burn alias money
@@ -188,8 +186,7 @@
 #define ALIAS_REWARDS_ACCOUNT_VIEW_SEC_KEY              "0000000000000000000000000000000000000000000000000000000000000000" //burn alias money
 
 #define ALIAS_MINIMUM_PUBLIC_SHORT_NAME_ALLOWED         6
-#define ALIAS_SHORT_NAMES_VALIDATION_PUB_KEY            "37947f7b6a5268c5d0a48bde73d7a426f0b5f24648f74024279540207dc70031" 
-
+#define ALIAS_SHORT_NAMES_VALIDATION_PUB_KEY            "37947f7b6a5268c5d0a48bde73d7a426f0b5f24648f74024279540207dc70031"
 
 #define ALIAS_NAME_MAX_LEN                              255
 #define ALIAS_VALID_CHARS                               "0123456789abcdefghijklmnopqrstuvwxyz-."
@@ -197,14 +194,12 @@
 
 #define CURRENCY_CORE_INSTANCE_LOCK_FILE                "lock.lck"
 
-
 #define CURRENCY_POOLDATA_FOLDERNAME_OLD                "poolstate"
 #define CURRENCY_BLOCKCHAINDATA_FOLDERNAME_OLD          "blockchain"
 
-
 #define CURRENCY_POOLDATA_FOLDERNAME_PREFIX             "poolstate_"
 #define CURRENCY_POOLDATA_FOLDERNAME_SUFFIX             "_v1"
-#define CURRENCY_BLOCKCHAINDATA_FOLDERNAME_PREFIX       "blockchain_" 
+#define CURRENCY_BLOCKCHAINDATA_FOLDERNAME_PREFIX       "blockchain_"
 #define CURRENCY_BLOCKCHAINDATA_FOLDERNAME_SUFFIX       "_v1"
 
 #define P2P_NET_DATA_FILENAME                           "p2pstate.bin"
@@ -213,7 +208,6 @@
 #define GUI_CONFIG_FILENAME                             "gui_settings.json"
 #define GUI_INTERNAL_CONFIG2                            "gui_internal_config.json"
 #define GUI_IPC_MESSAGE_CHANNEL_NAME                    CURRENCY_NAME_BASE "_message_que"
-
 
 #define CURRENT_TRANSACTION_CHAIN_ENTRY_ARCHIVE_VER     3
 #define CURRENT_BLOCK_EXTENDED_INFO_ARCHIVE_VER         1
@@ -227,7 +221,7 @@
 
 #ifndef TESTNET
 #define WALLET_FILE_SERIALIZATION_VERSION               153
-#else 
+#else
 #define WALLET_FILE_SERIALIZATION_VERSION               (CURRENCY_FORMATION_VERSION+69)
 #endif
 
@@ -238,13 +232,13 @@
 #define BLOCK_MINOR_VERSION_GENESIS                     0
 #define BLOCK_MAJOR_VERSION_INITIAL                     0
 #ifndef TESTNET
-#define INF_HARDFORK_01_AFTER_HEIGHT                   0
-#define INF_HARDFORK_02_AFTER_HEIGHT                   0
-#define INF_HARDFORK_03_AFTER_HEIGHT                   0
+#define INF_HARDFORK_01_AFTER_HEIGHT                   100
+#define INF_HARDFORK_02_AFTER_HEIGHT                   150
+#define INF_HARDFORK_03_AFTER_HEIGHT                   200
 #else
-#define INF_HARDFORK_01_AFTER_HEIGHT                   0
-#define INF_HARDFORK_02_AFTER_HEIGHT                   0
-#define INF_HARDFORK_03_AFTER_HEIGHT                   0
+#define INF_HARDFORK_01_AFTER_HEIGHT                   100
+#define INF_HARDFORK_02_AFTER_HEIGHT                   150
+#define INF_HARDFORK_03_AFTER_HEIGHT                   200
 #endif
 
 static_assert(CURRENCY_MINER_TX_MAX_OUTS <= CURRENCY_TX_MAX_ALLOWED_OUTS, "Miner tx must obey normal tx max outs limit");
