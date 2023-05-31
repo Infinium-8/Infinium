@@ -9,7 +9,7 @@ ifneq (, $(findstring MINGW, $(system)))
   cmake_gen = -G 'MSYS Makefiles'
 endif
 
-cmake = cmake -j 8 $(cmake_gen)
+cmake = cmake $(cmake_gen)
 
 cmake_debug = $(cmake) -D CMAKE_BUILD_TYPE=Debug
 cmake_release = $(cmake) -D CMAKE_BUILD_TYPE=Release
