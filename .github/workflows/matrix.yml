@@ -1,0 +1,67 @@
+name: Build
+on:
+  push:
+  pull_request:
+  release:
+    types: [published]
+ 
+env:
+  TAG: ${{ github.ref }}
+
+jobs:
+# Common Build matrix for builds on Ubuntu Lasted VM       
+  ubuntu_now_build:
+    name: ${{ matrix.build_name }}
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        # Add more compilers here if you need them
+        build_name: ['Ubuntu 22.04 - GCC 11', 'Ubuntu 22.04 - Clang 11']
+        include:
+          - build_name: 'Ubuntu 22.04 - GCC 11'
+            package_name: 'gcc-11 g++-11'
+            cc: gcc-11
+            cxx: g++-11
+            label: ubuntu-22.04-linux
+            deployable: false
+          - build_name: 'Ubuntu 22.04 - Clang 11'
+            package_name: 'clang-11'
+            cc: clang-11
+            cxx: clang++-11
+            label: ubuntu-22.04-linux-clang-11
+            deployable: true
+    env:
+      CCACHE_DIR: $GITHUB_WORKSPACE/.ccache
+      LABEL: ${{ matrix.label }}
+    steps:
+      - uses: actions/checkout@v2
+
+      # Fetch Dependencies
+      - name: Dependencies
+        run: |
+          sudo apt update
+          sudo apt upgrade
+          sudo apt-get install -y build-essential python-dev autotools-dev libicu-dev libbz2-dev cmake git screen checkinstall zlib1g-dev ${{ matrix.package_name }}
+      - name: Setup ccache
+        run: |
+          sudo apt install ccache
+      - name: Retrieve ccache
+        uses: actions/cache@v1
+        with:
+          path: .ccache
+          key: ccache-${{ matrix.label }}     
+     
+     # Configure the project with cmake
+      - name: Configure
+        env:
+          CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx }}
+        run: |
+          mkdir build && cd build
+          cmake  -D BUILD_GUI=OFF -DSTATIC=true -D CMAKE_BUILD_TYPE=Release -D BUILD_TESTS=OFF ..
+      # Build for linux
+      - name: Build
+        run: |
+          cd build
+          make  
