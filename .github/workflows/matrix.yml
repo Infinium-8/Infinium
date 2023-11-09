@@ -44,6 +44,7 @@ jobs:
           ./b2
           cd ..
           pwd
+          export BOOST_ROOT=/home/runner/work/Infinium/Infinium/boost_1_70_0
       - name: Setup ccache
         run: |
           sudo apt install ccache
