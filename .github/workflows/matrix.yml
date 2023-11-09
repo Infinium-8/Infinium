@@ -12,24 +12,18 @@ jobs:
 # Common Build matrix for builds on Ubuntu Lasted VM       
   ubuntu_now_build:
     name: ${{ matrix.build_name }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
         # Add more compilers here if you need them
-        build_name: ['Ubuntu 22.04 - GCC 11', 'Ubuntu 22.04 - Clang 11']
+        build_name: ['Ubuntu 20.04 - GCC 8']
         include:
-          - build_name: 'Ubuntu 22.04 - GCC 11'
-            package_name: 'gcc-11 g++-11'
-            cc: gcc-9
-            cxx: g++-9
-            label: ubuntu-22.04-linux
-            deployable: false
-          - build_name: 'Ubuntu 22.04 - Clang 11'
-            package_name: 'clang-11'
-            cc: clang-9
-            cxx: clang++-9
-            label: ubuntu-22.04-linux-clang-11
+          - build_name: 'Ubuntu 20.04 - GCC 8'
+            package_name: 'gcc-8 g++-8'
+            cc: gcc-8
+            cxx: g++-8
+            label: ubuntu-20.04-linux
             deployable: true
     env:
       CCACHE_DIR: $GITHUB_WORKSPACE/.ccache
@@ -42,21 +36,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt upgrade
-          sudo apt-get install -y curl libboost-all-dev build-essential python3-dev autotools-dev libicu-dev libbz2-dev cmake git screen checkinstall zlib1g-dev ${{ matrix.package_name }}
-          curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.70.0/source/boost_1_70_0.tar.bz2
-          tar -xjf boost_1_70_0.tar.bz2
-          cd boost_1_70_0
-          ./bootstrap.sh --with-libraries=system,filesystem,thread,date_time,chrono,regex,serialization,atomic,program_options,locale,timer,log
-          ./b2
-          pwd        
-          cd ..          
-          curl -OL https://www.openssl.org/source/openssl-1.1.1n.tar.gz
-          tar xaf openssl-1.1.1n.tar.gz 
-          cd openssl-1.1.1n/
-          ./config --prefix=/home/user/openssl --openssldir=/home/user/openssl shared zlib
-          make
-          make test
-          make install
+          sudo apt-get install -y libboost-all-dev build-essential python3-dev autotools-dev libicu-dev libbz2-dev cmake git screen checkinstall zlib1g-dev ${{ matrix.package_name }}
 
       - name: Setup ccache
         run: |
