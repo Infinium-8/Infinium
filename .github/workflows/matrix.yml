@@ -17,12 +17,12 @@ jobs:
       fail-fast: false
       matrix:
         # Add more compilers here if you need them
-        build_name: ['Ubuntu 20.04 - GCC 8']
+        build_name: ['Ubuntu 20.04 - GCC 9']
         include:
-          - build_name: 'Ubuntu 20.04 - GCC 8'
-            package_name: 'gcc-8 g++-8'
-            cc: gcc-8
-            cxx: g++-8
+          - build_name: 'Ubuntu 20.04 - GCC 9'
+            package_name: 'gcc-9 g++-9'
+            cc: gcc-9
+            cxx: g++-9
             label: ubuntu-20.04-linux
             deployable: true
     env:
@@ -48,7 +48,6 @@ jobs:
           cd openssl-1.1.1n/
           ./config --prefix=/home/runner/work/Infinium/Infinium/openssl --openssldir=/home/runner/work/Infinium/Infinium/openssl shared zlib
           make
-          make test
           make install
           cd ..
       - name: Setup ccache
