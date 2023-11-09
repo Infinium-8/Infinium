@@ -17,12 +17,24 @@ jobs:
       fail-fast: false
       matrix:
         # Add more compilers here if you need them
-        build_name: ['Ubuntu 20.04 - GCC 9']
+        build_name: ['Ubuntu 20.04 - GCC 8', 'Ubuntu 20.04 - GCC 9', 'Ubuntu 20.04 - GCC 10']
         include:
+          - build_name: 'Ubuntu 20.04 - GCC 8'
+            package_name: 'gcc-8 g++-8'
+            cc: gcc-8
+            cxx: g++-8
+            label: ubuntu-20.04-linux
+            deployable: true
           - build_name: 'Ubuntu 20.04 - GCC 9'
             package_name: 'gcc-9 g++-9'
             cc: gcc-9
             cxx: g++-9
+            label: ubuntu-20.04-linux
+            deployable: true
+          - build_name: 'Ubuntu 20.04 - GCC 10'
+            package_name: 'gcc-10 g++-10'
+            cc: gcc-10
+            cxx: g++-10
             label: ubuntu-20.04-linux
             deployable: true
     env:
