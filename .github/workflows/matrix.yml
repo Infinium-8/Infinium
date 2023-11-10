@@ -124,9 +124,9 @@ jobs:
           sudo apt update
           sudo apt upgrade
           sudo apt-get install -y curl build-essential python3-dev autotools-dev libicu-dev libbz2-dev cmake git screen checkinstall zlib1g-dev ${{ matrix.package_name }}
-          curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.70.0/source/boost_1_70_0.tar.bz2
-          tar -xjf boost_1_70_0.tar.bz2
-          cd boost_1_70_0
+          curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.bz2
+          tar -xjf boost_1_76_0.tar.bz2
+          cd boost_1_76_0
           ./bootstrap.sh --with-libraries=system,filesystem,thread,date_time,chrono,regex,serialization,atomic,program_options,locale,timer,log
           ./b2
           cd ..
@@ -153,7 +153,7 @@ jobs:
           CXX: ${{ matrix.cxx }}
         run: |
           mkdir build && cd build
-          cmake  -D BOOST_ROOT=/home/runner/work/Infinium/Infinium/boost_1_70_0 -D OPENSSL_ROOT_DIR=/home/runner/work/Infinium/Infinium/openssl -D BUILD_GUI=OFF -D STATIC=true -D CMAKE_BUILD_TYPE=Release -D BUILD_TESTS=OFF ..
+          cmake  -D BOOST_ROOT=/home/runner/work/Infinium/Infinium/boost_1_76_0 -D OPENSSL_ROOT_DIR=/home/runner/work/Infinium/Infinium/openssl -D BUILD_GUI=OFF -D STATIC=true -D CMAKE_BUILD_TYPE=Release -D BUILD_TESTS=OFF ..
       # Build for linux
       - name: Build
         run: |
