@@ -229,7 +229,7 @@ jobs:
           $env:CLCACHE_DIR = "$env:GITHUB_WORKSPACE\clcache"
           $env:PATH = "$env:PATH;$env:MSBUILD_PATH"
           cd build
-          MSBuild infinium.sln /p:Configuration=Release /p:PlatformToolset=v142 /m
+          MSBuild infinium.sln /p:Configuration=Release /t:Build
       # Prepare for deploy
       - name: Prepare for Deploy
         shell: bash
