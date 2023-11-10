@@ -92,7 +92,7 @@ jobs:
       fail-fast: false
       matrix:
         # Add more compilers here if you need them
-        build_name: ['Ubuntu 22.04 - Clang 9', 'Ubuntu 22.04 - GCC 13', 'Ubuntu 22.04 - GCC 11']
+        build_name: ['Ubuntu 22.04 - Clang 9', 'Ubuntu 22.04 - GCC 12', 'Ubuntu 22.04 - GCC 11']
         include:
           - build_name: 'Ubuntu 22.04 - GCC 12'
             package_name: 'gcc-12 g++-12'
