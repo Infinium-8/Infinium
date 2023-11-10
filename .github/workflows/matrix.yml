@@ -101,7 +101,7 @@ jobs:
             label: ubuntu-22.04-linux-gcc-12
             deployable: true
           - build_name: 'Ubuntu 22.04 - Clang 9'
-            package_name: 'clang-9 clang-9'
+            package_name: 'clang-9'
             cc: clang-9
             cxx: clang++-9
             label: ubuntu-22.04-linux-clang-9
