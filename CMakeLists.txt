@@ -235,8 +235,9 @@ elseif(NOT MSVC)
   endif()
 endif()
 
-
-# set(Boost_LIBRARIES "${Boost_LIBRARIES};/usr/lib/x86_64-linux-gnu/libicui18n.a;/usr/lib/x86_64-linux-gnu/libicuuc.a;/usr/lib/x86_64-linux-gnu/libicudata.a") #;/usr/lib/x86_64-linux-gnu/libc.a;/usr/lib/gcc/x86_64-linux-gnu/9/libstdc++.a
+if(NOT MSVC)
+  set(Boost_LIBRARIES "${Boost_LIBRARIES};/usr/lib/x86_64-linux-gnu/libicui18n.a;/usr/lib/x86_64-linux-gnu/libicuuc.a;/usr/lib/x86_64-linux-gnu/libicudata.a") #;/usr/lib/x86_64-linux-gnu/libc.a;/usr/lib/gcc/x86_64-linux-gnu/9/libstdc++.a
+endif()
       
 if(BUILD_GUI)
   cmake_minimum_required(VERSION 2.8.11)
