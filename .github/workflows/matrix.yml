@@ -222,7 +222,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -G "Visual Studio 16 2019" -A x64 .. -DBUILD_GUI=OFF -DBOOST_ROOT=C:/local/boost_1_78_0
+          cmake -G "Visual Studio 16 2019" -A x64 .. -DBUILD_GUI=OFF -DBOOST_ROOT=C:/local/boost_1_78_0  -DOPENSSL_ROOT_DIR=C:/Program Files/OpenSSL
       # Build for Windows
       - name: Build
         run: |
