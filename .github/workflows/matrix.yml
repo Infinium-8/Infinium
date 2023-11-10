@@ -210,19 +210,19 @@ jobs:
         run: choco install openssl
 
       # Install boost
-      - name: Install Boost 1.78.0
+      - name: Install Boost 1.71.0
         run: |
-          $link = "https://boost.teeks99.com/bin/1.78.0/boost_1_78_0-msvc-14.2-64.exe"
+          $link = "https://boost.teeks99.com/bin/1.71.0/boost_1_71_0-msvc-14.2-64.exe"
           $path = "C:\boost.exe"
           [Net.WebClient]::new().DownloadFile($link, $path)
-          Start-Process C:\boost.exe -ArgumentList "/DIR=C:\local\boost_1_78_0","/VERYSILENT" -Wait
-          Get-ChildItem C:\local\boost_1_78_0
+          Start-Process C:\boost.exe -ArgumentList "/DIR=C:\local\boost_1_71_0","/VERYSILENT" -Wait
+          Get-ChildItem C:\local\boost_1_71_0
       # Configure project with cmake
       - name: Configure
         run: |
           mkdir build
           cd build
-          cmake -G "Visual Studio 16 2019" -A x64 .. -DBUILD_GUI=OFF -DBOOST_ROOT=C:/local/boost_1_78_0  -DOPENSSL_ROOT_DIR="C:/Program Files/OpenSSL"
+          cmake -G "Visual Studio 16 2019" -A x64 .. -DBUILD_GUI=OFF -DBOOST_ROOT=C:/local/boost_1_71_0  -DOPENSSL_ROOT_DIR="C:/Program Files/OpenSSL"
       # Build for Windows
       - name: Build
         run: |
