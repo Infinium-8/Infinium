@@ -239,9 +239,9 @@ jobs:
 
           brew install --force ccache gcc@11
           
-          curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.70.0/source/boost_1_70_0.tar.bz2
-          tar -xjf boost_1_70_0.tar.bz2
-          cd boost_1_70_0
+          curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.bz2
+          tar -xjf boost_1_76_0.tar.bz2
+          cd boost_1_76_0
           ./bootstrap.sh --with-libraries=system,filesystem,thread,date_time,chrono,regex,serialization,atomic,program_options,locale,timer,log
           ./b2
           
