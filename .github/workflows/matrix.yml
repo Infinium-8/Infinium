@@ -227,6 +227,8 @@ jobs:
     runs-on: macOS-11
     env:
       LABEL: osx
+      CC: /usr/local/bin/gcc
+      CXX: /usr/local/bin/g++
       CCACHE_DIR: $GITHUB_WORKSPACE/.ccache
     steps:
       - uses: actions/checkout@v2
