@@ -236,7 +236,7 @@ jobs:
       # Fetch Dependencies
       - name: Dependencies
         run: |
-           brew install --force boost@1.74 llvm@11 ccache
+           brew install --force boost@1.74.0 llvm@11 ccache
            brew link --overwrite llvm@11
            ln -s /usr/local/opt/llvm@11 /usr/local/opt/llvm
       - name: Retrieve ccache
