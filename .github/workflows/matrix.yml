@@ -220,7 +220,42 @@ jobs:
           name: Infinium-${{ github.sha }}-${{ env.LABEL }}
           path: ./build/src/Infinium-${{ github.sha }}
    
+ 
+  # Mac builds on Catalina VM
+  macos_build:
+    name: macOS
+    runs-on: macOS-11
+    env:
+      CC: /usr/local/opt/llvm@11/bin/clang
+      CXX: /usr/local/opt/llvm@11/bin/clang++
+      LABEL: osx
+      CCACHE_DIR: $GITHUB_WORKSPACE/.ccache
+    steps:
+      - uses: actions/checkout@v2
+
+      # Fetch Dependencies
+      - name: Dependencies
+        run: |
+           brew install --force boost llvm@11 ccache
+           brew link --overwrite llvm@11
+           ln -s /usr/local/opt/llvm@11 /usr/local/opt/llvm
+      - name: Retrieve ccache
+        uses: actions/cache@v1
+        with:
+          path: .ccache
+          key: ccache-osx
+
+      # Configure project with cmake
+      - name: Configure
+        run: |
+          mkdir build && cd build
+          cmake -DARCH=default -DCMAKE_BUILD_TYPE=Release -DSTATIC=true ..
+      # Build for macOS
+      - name: Build
+        run: |
+          cd build
           
+  # Windows 10        
   windows_build:
     name: Windows
     runs-on: windows-2022
