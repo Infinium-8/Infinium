@@ -235,7 +235,7 @@ jobs:
       - name: Dependencies
         run: |
 
-          brew install --force ccache gcc@11 g++@11
+          brew install --force ccache gcc@11
           
           curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.70.0/source/boost_1_70_0.tar.bz2
           tar -xjf boost_1_70_0.tar.bz2
