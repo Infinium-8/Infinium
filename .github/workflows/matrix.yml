@@ -227,8 +227,8 @@ jobs:
     runs-on: macOS-11
     env:
       LABEL: osx
-      CC: /usr/bin/gcc
-      CXX: /usr/bin/g++
+      CC: /usr/local/Cellar/gcc/11.4.0/gcc
+      CXX: /usr/local/Cellar/gcc/11.4.0/g++
       CCACHE_DIR: $GITHUB_WORKSPACE/.ccache
     steps:
       - uses: actions/checkout@v2
@@ -237,7 +237,24 @@ jobs:
       - name: Dependencies
         run: |
           brew install --force ccache gcc@11
-          ls /usr/local/Cellar/gcc
+
+          curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.bz2
+          tar -xjf boost_1_76_0.tar.bz2
+          cd boost_1_76_0
+          ./bootstrap.sh --with-libraries=system,filesystem,thread,date_time,chrono,regex,serialization,atomic,program_options,locale,timer,log
+          ./b2
+          
+          cd ..
+          
+          curl -OL https://www.openssl.org/source/openssl-1.1.1n.tar.gz
+          tar -xf openssl-1.1.1n.tar.gz 
+          cd openssl-1.1.1n/
+          ./config --prefix=/home/runner/work/Infinium/Infinium/openssl --openssldir=/home/runner/work/Infinium/Infinium/openssl shared zlib
+          make
+          make install
+          
+          cd ..
+          
 
       - name: Retrieve ccache
         uses: actions/cache@v1
