@@ -272,6 +272,7 @@ jobs:
       - name: Build
         run: |
           cd build
+          make
           
   # Windows 10        
   windows_build:
