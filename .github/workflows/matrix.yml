@@ -236,7 +236,8 @@ jobs:
       # Fetch Dependencies
       - name: Dependencies
         run: |
-          ls /usr/local/Cellar/gcc@11/
+          ls /usr/local/opt/gcc@11/
+          ls /usr/local/opt/
           brew install --force ccache gcc@11
 
           curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.bz2
