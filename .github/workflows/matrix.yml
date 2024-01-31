@@ -107,7 +107,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: /home/runner/work/Infinium/Infinium/build/src/Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
+          asset_path: ./build/src/Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
           asset_name: Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
           asset_content_type: application/gzip
 
@@ -249,7 +249,7 @@ jobs:
           curl -OL https://www.openssl.org/source/openssl-1.1.1n.tar.gz
           tar -xf openssl-1.1.1n.tar.gz 
           cd openssl-1.1.1n/
-          ./config --prefix=/Users/runner/work/Infinium/Infinium/openssl --openssldir=/Users/runner/work/Infinium/Infinium/openssl shared zlib
+          ./config --prefix=/Users/runner/work/Infinium/Infinium/openssl --openssldir=/Users/runner/work/Infinium/Infinium/openssl
           make
           make install
           
