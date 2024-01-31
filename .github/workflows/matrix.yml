@@ -106,6 +106,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          run: |
+            pwd
+            ls -la
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: /home/runner/work/Infinium/Infinium/build/src/Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
           asset_name: Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
@@ -115,6 +118,9 @@ jobs:
       - name: Upload To GH Artifacts
         uses: actions/upload-artifact@v2
         with:
+          run: |
+            pwd
+            ls -la
           name: Infinium-${{ github.sha }}-${{ env.LABEL }}
           path: ./build/src/Infinium-${{ github.sha }}   
 
