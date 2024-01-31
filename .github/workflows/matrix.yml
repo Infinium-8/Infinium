@@ -107,8 +107,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./build/src/Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
-          asset_name: Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
+          asset_path: ./build/src/Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}
+          asset_name: Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}
           asset_content_type: application/gzip
 
       # Upload to GH Actions Artifacts
@@ -201,7 +201,6 @@ jobs:
           cp ${TARGETS} Infinium-${TAG}/
           tar cvfz Infinium-${TAG}-${LABEL}.tar.gz Infinium-${TAG}/
           ls -la
-          pwd
       # Upload to GH Release
       - name: Upload to GH Release
         if: github.event_name == 'release' && matrix.deployable
@@ -210,8 +209,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./build/src/Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
-          asset_name: Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
+          asset_path: ./build/src/Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}
+          asset_name: Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}
           asset_content_type: application/gzip
 
       # Upload to GH Actions Artifacts
