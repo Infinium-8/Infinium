@@ -107,8 +107,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./build/src/Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
-          asset_name: Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
+          asset_path: ./build/src/Infinium-${TAG}-${LABEL}.tar.gz
+          asset_name: Infinium-${TAG}-${LABEL}.tar.gz
           asset_content_type: application/gzip
 
       # Upload to GH Actions Artifacts
@@ -209,8 +209,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./build/src/Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
-          asset_name: Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
+          asset_path: ./build/src/Infinium-${TAG}-${LABEL}.tar.gz
+          asset_name: Infinium-${TAG}-${LABEL}.tar.gz
           asset_content_type: application/gzip
 
       # Upload to GH Actions Artifacts
@@ -246,16 +246,6 @@ jobs:
           
           cd ..
           
-          curl -OL https://www.openssl.org/source/openssl-1.1.1n.tar.gz
-          tar -xf openssl-1.1.1n.tar.gz 
-          cd openssl-1.1.1n/
-          ./config --prefix=/Users/runner/work/Infinium/Infinium/openssl --openssldir=/Users/runner/work/Infinium/Infinium/openssl
-          make
-          make install
-          
-          cd ..
-          
-
       - name: Retrieve ccache
         uses: actions/cache@v1
         with:
@@ -266,7 +256,7 @@ jobs:
       - name: Configure
         run: |
           mkdir build && cd build
-          cmake -D BOOST_ROOT=/Users/runner/work/Infinium/Infinium/boost_1_76_0 -D OPENSSL_ROOT_DIR=/Users/runner/work/Infinium/Infinium/openssl -D BUILD_GUI=OFF -D CMAKE_BUILD_TYPE=Release  -D BUILD_TESTS=OFF ..
+          cmake -D BOOST_ROOT=/Users/runner/work/Infinium/Infinium/boost_1_76_0 -D BUILD_GUI=OFF -D CMAKE_BUILD_TYPE=Release  -D BUILD_TESTS=OFF ..
       # Build for macOS
       - name: Build
         run: |
@@ -338,8 +328,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./build/src/Release/Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.zip
-          asset_name: Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.zip
+          asset_path: ./build/src/Release/Infinium-${TAG}-${LABEL}.zip
+          asset_name: Infinium-${TAG}-${LABEL}.zip
           asset_content_type: application/zip
 
       # Upload to GH Actions Artifacts
