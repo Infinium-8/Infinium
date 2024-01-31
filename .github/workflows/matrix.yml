@@ -224,7 +224,7 @@ jobs:
   # Mac builds on Catalina VM
   macos_build:
     name: macOS
-    runs-on: macOS-11
+    runs-on: macos-latest
     env:
       LABEL: osx
       CC: /usr/local/opt/gcc@11/bin/gcc-11
@@ -238,7 +238,6 @@ jobs:
         run: |
           ls /usr/local/opt/gcc@11/bin/
           brew install --force ccache gcc@11
-          brew install --force zlib
           curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.bz2
           tar -xjf boost_1_76_0.tar.bz2
           cd boost_1_76_0
