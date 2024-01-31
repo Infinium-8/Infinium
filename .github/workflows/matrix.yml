@@ -107,8 +107,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./build/src/Infinium-${TAG}-${LABEL}.tar.gz
-          asset_name: Infinium-${TAG}-${LABEL}.tar.gz
+          asset_path: ./build/src/
+          asset_name: Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
           asset_content_type: application/gzip
 
       # Upload to GH Actions Artifacts
@@ -209,8 +209,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./build/src/Infinium-${TAG}-${LABEL}.tar.gz
-          asset_name: Infinium-${TAG}-${LABEL}.tar.gz
+          asset_path: ./build/src/
+          asset_name: Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
           asset_content_type: application/gzip
 
       # Upload to GH Actions Artifacts
@@ -328,8 +328,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./build/src/Release/Infinium-${TAG}-${LABEL}.zip
-          asset_name: Infinium-${TAG}-${LABEL}.zip
+          asset_path: ./build/src/
+          asset_name: Infinium-${{ github.event.release.tag_name }}-${{ env.LABEL }}.zip
           asset_content_type: application/zip
 
       # Upload to GH Actions Artifacts
