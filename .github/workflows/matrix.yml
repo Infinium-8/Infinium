@@ -238,10 +238,10 @@ jobs:
         run: |
           ls /usr/local/opt/gcc@11/bin/
           brew install --force ccache gcc@11
-          curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.82.0/source/boost_1_82_0.tar.bz2
-          tar -xjf boost_1_82_0.tar.bz2
-          cd boost_1_82_0
-          ./bootstrap.sh --with-libraries=system,filesystem,thread,date_time,chrono,regex,serialization,atomic,program_options,locale,timer,log
+          curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.bz2
+          tar -xjf boost_1_80_0.tar.bz2
+          cd boost_1_80_0
+          ./bootstrap.sh
           ./b2
           
           cd ..
