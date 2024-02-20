@@ -30,13 +30,13 @@ jobs:
             cc: gcc-10
             cxx: g++-10
             label: ubuntu-20.04-linux-gcc-10
-            deployable: true
+            deployable: false
           - build_name: 'Ubuntu 20.04 - GCC 11'
             package_name: 'gcc-11 g++-11'
             cc: gcc-11
             cxx: g++-11
             label: ubuntu-20.04-linux-gcc-11
-            deployable: true
+            deployable: false
     env:
       CCACHE_DIR: $GITHUB_WORKSPACE/.ccache
       LABEL: ${{ matrix.label }}
@@ -138,7 +138,7 @@ jobs:
             cc: gcc-12
             cxx: g++-12
             label: ubuntu-22.04-linux-gcc-12
-            deployable: true
+            deployable: false
     env:
       CCACHE_DIR: $GITHUB_WORKSPACE/.ccache
       LABEL: ${{ matrix.label }}
@@ -284,7 +284,7 @@ jobs:
           
       # Upload to GH Release
       - name: Upload to GH Release
-        if: github.event_name == 'release' && matrix.deployable
+        if: github.event_name == 'release' 
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
