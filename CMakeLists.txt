@@ -5,6 +5,9 @@ PROJECT(infinium)
 
 set(VERSION "1.0")
 
+# Silence Warning
+add_definitions(-w)
+
 if(CMAKE_SYSTEM_NAME STREQUAL "iOS" OR CMAKE_SYSTEM_NAME STREQUAL "Android")
   add_definitions(-DMOBILE_WALLET_BUILD)
   if(CMAKE_SYSTEM_NAME STREQUAL "iOS" )   
