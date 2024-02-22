@@ -9,11 +9,13 @@
 
 struct notification_helper
 {
-  static void show(const std::string& title, const std::string& message);
-  #if !defined(__APPLE__)
-    {
-      // just a stub, implemented for macOS only, see .mm
-      LOG_PRINT_RED("system notifications are supported only for macOS!", LOG_LEVEL_0);
-    }
-  #endif
+    static void show(const std::string& title, const std::string& message);
 };
+
+#if !defined(__APPLE__)
+void notification_helper::show(const std::string& title, const std::string& message)
+{
+    // Implementación para otras plataformas
+    LOG_PRINT_RED("System notifications are not supported for this platform!", LOG_LEVEL_0);
+}
+#endif
