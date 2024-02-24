@@ -49,14 +49,18 @@ jobs:
       - name: Checkout repository and submodules
         uses: actions/checkout@v2
         with:
-          submodules: recursive   
+          submodules: recursive
 
-      # Install Boost
-      - name: Install Boost
+       # Fetch Dependencies
+      - name: Dependencies
         run: |
           sudo apt update
           sudo apt upgrade
-          sudo apt-get install -y curl build-essential python3-dev autotools-dev libicu-dev libbz2-dev cmake git screen checkinstall zlib1g-dev ${{ matrix.package_name }}
+          sudo apt-get install -y curl build-essential python3-dev autotools-dev libicu-dev libbz2-dev cmake git screen checkinstall zlib1g-dev fuse libfuse2 libxcb-xinerama0 ${{ matrix.package_name }}   
+
+      # Install Boost 
+      - name: Install Boost
+        run: |
           curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.70.0/source/boost_1_70_0.tar.bz2
           tar -xjf boost_1_70_0.tar.bz2
           cd boost_1_70_0
@@ -120,6 +124,10 @@ jobs:
           COMMIT_SHA: ${{ github.sha }}
         run: |
           if [[ "${TAG:5:4}" == "tags" ]]; then export TAG=${TAG:10}; else export TAG=${COMMIT_SHA}; fi
+          prj_root=$(pwd)
+          
+          echo Infinium Gui Tar.Gz
+          
           cd build/src
           TARGETS="infiniumd connectivity_tool simplewallet infinium"
           if [[ "${LABEL}" != "aarch64" ]]; then strip ${TARGETS}; fi
@@ -164,6 +172,36 @@ jobs:
           mkdir Infinium-Gui-${TAG}/xcbglintegrations
           cp /home/runner/work/Infinium/Qt/5.12.12/gcc_64/plugins/xcbglintegrations/libqxcb-glx-integration.so Infinium-Gui-${TAG}/xcbglintegrations
           tar cvfz Infinium-Gui-${TAG}-${LABEL}.tar.gz Infinium-Gui-${TAG}/
+
+          echo Infinium GUI AppImage
+          
+          rm -rf Infinium-GUI-${TAG}
+          mkdir Infinium-GUI-${TAG}
+          mkdir -p Infinium-GUI-${TAG}/usr/bin
+          mkdir -p Infinium-GUI-${TAG}/usr/lib
+          mkdir -p Infinium-GUI-${TAG}/usr/share/applications
+          mkdir -p Infinium-GUI-${TAG}/usr/share/icons/hicolor/scalable/apps
+          mkdir -p Infinium-GUI-${TAG}/usr/share/icons/hicolor/256x256/apps
+          cp -r ../../src/gui/qt-daemon/layout/html Infinium-GUI-${TAG}/usr/bin/
+          cp ${TARGETS} Infinium-GUI-${TAG}/usr/bin/       
+          cp ../../utils/buildings/linux/64bit/Infinium.desktop Infinium-GUI-${TAG}/usr/share/applications/Infinium.desktop
+          cp ../../resources/app_icon.svg Infinium-GUI-${TAG}/usr/share/icons/hicolor/scalable/apps/Infinium.svg
+          cp ../../resources/app_icon_256.png Infinium-GUI-${TAG}/usr/share/icons/hicolor/256x256/apps/Infinium.png
+          echo "Exec=$prj_root/build/src/Infinium-GUI-${TAG}/usr/bin/infinium" >> Infinium-GUI-${TAG}/usr/share/applications/Infinium.desktop
+          rm -rf /home/runner/work/_temp/
+          wget https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
+          chmod 777 linuxdeployqt-continuous-x86_64.AppImage
+          /home/runner/work/Infinium/Infinium/build/src/linuxdeployqt-continuous-x86_64.AppImage ./Infinium-GUI-${TAG}/usr/share/applications/Infinium.desktop -qmake=/home/runner/work/Infinium/Qt/5.12.12/gcc_64/bin/qmake      
+          wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod 777 appimagetool-x86_64.AppImage
+          rm -rf Infinium-GUI-${TAG}/AppRun
+          cp ../../utils/buildings/linux/64bit/infinium_appimage_wrapper.sh Infinium-GUI-${TAG}/AppRun
+          chmod 777 Infinium-GUI-${TAG}/*
+          chmod 777 Infinium-GUI-${TAG}/*/*
+          chmod 777 Infinium-GUI-${TAG}/*/*/*
+          chmod 777 Infinium-GUI-${TAG}/*/*/*/*
+          chmod 777 Infinium-GUI-${TAG}/*/*/*/*/*
+          /home/runner/work/Infinium/Infinium/build/src/appimagetool-x86_64.AppImage ./Infinium-GUI-${TAG} Infinium-GUI-${TAG}-${LABEL}.AppImage
       
       # Upload to GH Release
       - name: Upload to GH Release
@@ -177,6 +215,18 @@ jobs:
           asset_name: Infinium-Gui-${{ github.event.release.tag_name }}-${{ env.LABEL }}.tar.gz
           asset_content_type: application/gzip
 
+      # Upload to GH Release
+      - name: Upload to GH Release
+        if: github.event_name == 'release' && matrix.deployable
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./build/src/Infinium-GUI-${{ github.event.release.tag_name }}-${{ env.LABEL }}.AppImage
+          asset_name: Infinium-GUI-${{ github.event.release.tag_name }}-${{ env.LABEL }}.AppImage
+          asset_content_type: application/octet-stream    
+
       # Upload to GH Actions Artifacts
       - name: Upload To GH Artifacts
         uses: actions/upload-artifact@v2
@@ -184,7 +234,12 @@ jobs:
           name: Infinium-Gui-${{ github.sha }}-${{ env.LABEL }}
           path: ./build/src/Infinium-Gui-${{ github.sha }}   
 
-
+      # Upload to GH Actions Artifacts AppData
+      - name: Upload To GH Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Infinium-GUI-${{ github.sha }}-${{ env.LABEL }}.AppImage
+          path: ./build/src/Infinium-GUI-${{ github.sha }}-${{ env.LABEL }}.AppImage
 
   ubuntu_now_build:
     name: ${{ matrix.build_name }}
@@ -213,7 +268,8 @@ jobs:
       LABEL: ${{ matrix.label }}
     steps:
       - uses: actions/checkout@v2
-
+      
+      # Checkout repository and submodules
       - name: Checkout repository and submodules
         uses: actions/checkout@v2
         with:
@@ -225,12 +281,20 @@ jobs:
           sudo apt update
           sudo apt upgrade
           sudo apt-get install -y curl build-essential python3-dev autotools-dev libicu-dev libbz2-dev cmake git screen checkinstall zlib1g-dev ${{ matrix.package_name }}
+     
+      # Install Boost
+      - name: Install Boost
+        run: |
           curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.bz2
           tar -xjf boost_1_76_0.tar.bz2
           cd boost_1_76_0
           ./bootstrap.sh --with-libraries=system,filesystem,thread,date_time,chrono,regex,serialization,atomic,program_options,locale,timer,log
           ./b2
           cd ..
+          
+      # Install OpenSSL
+      - name: Install OpenSSL
+        run: |
           curl -OL https://www.openssl.org/source/openssl-1.1.1n.tar.gz
           tar xaf openssl-1.1.1n.tar.gz 
           cd openssl-1.1.1n/
@@ -238,11 +302,13 @@ jobs:
           make
           make install
           cd ..
-          
+
+      # Install Ccache
       - name: Setup ccache
         run: |
           sudo apt install ccache
-         
+
+      # Install Qt   
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
@@ -252,7 +318,8 @@ jobs:
           target: 'desktop'
           arch: 'gcc_64'
           modules: 'debug_info qtcharts qtdatavis3d qtnetworkauth qtpurchasing qtscript qtvirtualkeyboard qtwebengine qtwebglplugin'
-          
+        
+      # Retrieve Ccache     
       - name: Retrieve ccache
         uses: actions/cache@v1
         with:
@@ -272,8 +339,8 @@ jobs:
       - name: Build
         run: |
           cd build
-          make 
-          
+          make
+
       # Prepare for deploy
       - name: Prepare for Deploy
         id: before_deploy
@@ -549,16 +616,16 @@ jobs:
           path: ./build/src/Release/Infinium-Gui-${{ github.sha }}  
             
       # Compile .ISS to .EXE Installer - No Release
-      - name: Compile .ISS to .EXE Installer
-        if: github.event_name != 'release'
+      - name: Compile .ISS to .EXE Installer - No Release
+        if: github.event_name != 'release' && !(startsWith(github.ref, 'refs/tags/'))
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
         with:
           path: build/src/Release/Infinium-Gui-${{ github.sha }}/setup_64.iss
           options: /O+ /DBinariesPath=..\Infinium-Gui-${{ github.sha }} /O..\Infinium\build\src\Release /FInfinium-Gui-${{ github.sha }}-${{ env.LABEL }}
       
       # Compile .ISS to .EXE Installer - Release
-      - name: Compile .ISS to .EXE Installer
-        if: github.event_name == 'release'
+      - name: Compile .ISS to .EXE Installer - Release
+        if: github.event_name == 'release' && startsWith(github.ref, 'refs/tags/')
         uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
         with:
           path: build/src/Release/Infinium-Gui-${{ github.event.release.tag_name }}/setup_64.iss

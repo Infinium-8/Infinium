@@ -49,12 +49,20 @@ jobs:
           sudo apt update
           sudo apt upgrade
           sudo apt-get install -y curl build-essential python3-dev autotools-dev libicu-dev libbz2-dev cmake git screen checkinstall zlib1g-dev ${{ matrix.package_name }}
+          
+      # Install Boost
+      - name: Install Boost
+        run: |
           curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.70.0/source/boost_1_70_0.tar.bz2
           tar -xjf boost_1_70_0.tar.bz2
           cd boost_1_70_0
           ./bootstrap.sh --with-libraries=system,filesystem,thread,date_time,chrono,regex,serialization,atomic,program_options,locale,timer,log
           ./b2
           cd ..
+
+      # Install OpenSSL
+      - name: Install OpenSSL
+        run: |
           curl -OL https://www.openssl.org/source/openssl-1.1.1n.tar.gz
           tar xaf openssl-1.1.1n.tar.gz 
           cd openssl-1.1.1n/
@@ -62,16 +70,20 @@ jobs:
           make
           make install
           cd ..
+
+      # Install Ccache
       - name: Setup ccache
         run: |
           sudo apt install ccache
+
+      # Retrieve Ccache    
       - name: Retrieve ccache
         uses: actions/cache@v1
         with:
           path: .ccache
           key: ccache-${{ matrix.label }}     
      
-     # Configure the project with cmake
+      # Configure the project with cmake
       - name: Configure
         env:
           CC: ${{ matrix.cc }}
@@ -79,11 +91,13 @@ jobs:
         run: |
           mkdir build && cd build
           cmake  -D BOOST_ROOT=/home/runner/work/Infinium/Infinium/boost_1_70_0 -D OPENSSL_ROOT_DIR=/home/runner/work/Infinium/Infinium/openssl -D BUILD_GUI=OFF -D STATIC=true -D CMAKE_BUILD_TYPE=Release -D BUILD_TESTS=OFF ..
+      
       # Build for linux
       - name: Build
         run: |
           cd build
           make 
+      
       # Prepare for deploy
       - name: Prepare for Deploy
         id: before_deploy
@@ -98,7 +112,7 @@ jobs:
           mkdir Infinium-${TAG}
           cp ${TARGETS} Infinium-${TAG}/
           tar cvfz Infinium-${TAG}-${LABEL}.tar.gz Infinium-${TAG}/
-          ls -la
+      
       # Upload to GH Release
       - name: Upload to GH Release
         if: github.event_name == 'release' && matrix.deployable
@@ -151,12 +165,20 @@ jobs:
           sudo apt update
           sudo apt upgrade
           sudo apt-get install -y curl build-essential python3-dev autotools-dev libicu-dev libbz2-dev cmake git screen checkinstall zlib1g-dev ${{ matrix.package_name }}
+
+      # Install Boost
+      - name: Install Boost
+        run: |  
           curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.bz2
           tar -xjf boost_1_76_0.tar.bz2
           cd boost_1_76_0
           ./bootstrap.sh --with-libraries=system,filesystem,thread,date_time,chrono,regex,serialization,atomic,program_options,locale,timer,log
           ./b2
           cd ..
+
+      # Install OpenSSL
+      - name: Install OpenSSL
+        run: |     
           curl -OL https://www.openssl.org/source/openssl-1.1.1n.tar.gz
           tar xaf openssl-1.1.1n.tar.gz 
           cd openssl-1.1.1n/
@@ -164,9 +186,13 @@ jobs:
           make
           make install
           cd ..
+
+      # Install Ccache
       - name: Setup ccache
         run: |
           sudo apt install ccache
+
+      # Retrieve ccache
       - name: Retrieve ccache
         uses: actions/cache@v1
         with:
@@ -181,11 +207,13 @@ jobs:
         run: |
           mkdir build && cd build
           cmake  -D BOOST_ROOT=/home/runner/work/Infinium/Infinium/boost_1_76_0 -D OPENSSL_ROOT_DIR=/home/runner/work/Infinium/Infinium/openssl -D BUILD_GUI=OFF -D STATIC=true -D CMAKE_BUILD_TYPE=Release -D BUILD_TESTS=OFF ..
+      
       # Build for linux
       - name: Build
         run: |
           cd build
           make 
+      
       # Prepare for deploy
       - name: Prepare for Deploy
         id: before_deploy
@@ -200,7 +228,7 @@ jobs:
           mkdir Infinium-${TAG}
           cp ${TARGETS} Infinium-${TAG}/
           tar cvfz Infinium-${TAG}-${LABEL}.tar.gz Infinium-${TAG}/
-          ls -la
+     
       # Upload to GH Release
       - name: Upload to GH Release
         if: github.event_name == 'release' && matrix.deployable
@@ -239,7 +267,7 @@ jobs:
           brew install --force ccache llvm@11
           ls /usr/local/opt/llvm@11/bin
 
-       # Fetch Dependencies
+      # Install Boost
       - name: Install Boost
         run: |    
           curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.bz2
@@ -248,7 +276,8 @@ jobs:
           ./bootstrap.sh 
           ./b2 
           cd ..
-          
+
+      # Retrieve ccache   
       - name: Retrieve ccache
         uses: actions/cache@v1
         with:
@@ -284,7 +313,7 @@ jobs:
           
       # Upload to GH Release
       - name: Upload to GH Release
-        if: github.event_name == 'release' 
+        if: github.event_name == 'release'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -312,17 +341,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # Setup clcache
       - name: Setup clcache
         run: pip install clcache
 
+      # Retrieve clcache
       - name: Retrieve clcache
         uses: actions/cache@v1
         with:
           path: clcache
           key: clcache-windows
 
-      - name: Install OpenSSL
-        run: choco install openssh --pre 
+      # Install OpenSSH
+      - name: Install OpenSSH
+        run: choco install openssh 
 
       # Install boost
       - name: Install Boost 1.71.0
@@ -332,12 +364,14 @@ jobs:
           [Net.WebClient]::new().DownloadFile($link, $path)
           Start-Process C:\boost.exe -ArgumentList "/DIR=C:\local\boost_1_71_0","/VERYSILENT" -Wait
           Get-ChildItem C:\local\boost_1_71_0
+
       # Configure project with cmake
       - name: Configure
         run: |
           mkdir build
           cd build
           cmake -G "Visual Studio 17 2022" -A x64 -T host=x64 .. -DBUILD_GUI=OFF -D BOOST_ROOT=C:/local/boost_1_71_0 -D BOOST_LIBRARYDIR="C:/local/boost_1_71_0/lib64-msvc-14.1"  -D OPENSSL_ROOT_DIR="C:/Program Files/OpenSSL" -D STATIC=OFF
+      
       # Build for Windows
       - name: Build
         run: |
@@ -345,6 +379,7 @@ jobs:
           $env:PATH = "$env:PATH;$env:MSBUILD_PATH"
           cd build
           MSBuild infinium.sln /p:Configuration=Release /t:Build
+      
       # Prepare for deploy
       - name: Prepare for Deploy
         shell: bash
