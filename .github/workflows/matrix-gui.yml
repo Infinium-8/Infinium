@@ -201,7 +201,7 @@ jobs:
           chmod 777 Infinium-GUI-${TAG}/*/*/*
           chmod 777 Infinium-GUI-${TAG}/*/*/*/*
           chmod 777 Infinium-GUI-${TAG}/*/*/*/*/*
-          /home/runner/work/Infinium/Infinium/build/src/appimagetool-x86_64.AppImage ./Infinium-GUI-${TAG} Infinium-GUI-${TAG}-${LABEL}.AppImage
+          ARCH=x86_64 /home/runner/work/Infinium/Infinium/build/src/appimagetool-x86_64.AppImage ./Infinium-GUI-${TAG} Infinium-GUI-${TAG}-${LABEL}.AppImage
       
       # Upload to GH Release
       - name: Upload to GH Release
