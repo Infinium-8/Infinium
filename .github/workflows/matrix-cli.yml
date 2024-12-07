@@ -249,8 +249,8 @@ jobs:
     runs-on: macos-13
     env:
       LABEL: osx
-      CC: /usr/local/opt/llvm@11/bin/clang
-      CXX: /usr/local/opt/llvm@11/bin/clang++
+      CC: /usr/local/opt/llvm@15/bin/clang
+      CXX: /usr/local/opt/llvm@15/bin/clang++
       CCACHE_DIR: $GITHUB_WORKSPACE/.ccache
     steps:
       - uses: actions/checkout@v4
@@ -258,8 +258,7 @@ jobs:
       # Fetch Dependencies
       - name: Dependencies
         run: |
-          brew install --force ccache llvm@11
-          ls /usr/local/opt/llvm@11/bin
+          brew install --force ccache llvm@15 cmake
 
       # Install Boost
       - name: Install Boost
