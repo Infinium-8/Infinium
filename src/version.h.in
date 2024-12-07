@@ -1,7 +1,7 @@
 #pragma once
 #include "misc_language.h"
 
-#define BUILD_COMMIT_ID "@VERSION@"
+#define BUILD_COMMIT_ID "Osiris"
 
 #define PROJECT_MAJOR_VERSION "1"
 #define PROJECT_MINOR_VERSION "5"
