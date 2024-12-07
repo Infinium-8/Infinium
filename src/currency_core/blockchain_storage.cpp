@@ -469,7 +469,7 @@ bool blockchain_storage::set_lost_tx_unmixable_for_height(uint64_t height)
 {
 #ifndef TESTNET
   // if (height == 75738)
-    return set_lost_tx_unmixable();  
+  //  return set_lost_tx_unmixable();  
 #endif
   return true;
 }
