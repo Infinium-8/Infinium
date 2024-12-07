@@ -518,7 +518,6 @@ void  blockchain_storage::patch_out_if_needed(txout_to_key& out, const crypto::h
     out.mix_attr = CURRENCY_TO_KEY_OUT_FORCED_NO_MIX;
   }
 #endif **/
-out.mix_attr = CURRENCY_TO_KEY_OUT_FORCED_NO_MIX;  
 }
 //------------------------------------------------------------------
 void blockchain_storage::store_db_solo_options_values()
