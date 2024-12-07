@@ -246,11 +246,12 @@ jobs:
   # Mac builds on Catalina VM
   macos_build:
     name: macOS
-    runs-on: macos-latest
+    runs-on: macos-12
     env:
       LABEL: osx
       CC: /usr/local/opt/llvm@11/bin/clang
       CXX: /usr/local/opt/llvm@11/bin/clang++
+      CCACHE_DIR: $GITHUB_WORKSPACE/.ccache
     steps:
       - uses: actions/checkout@v4
 
@@ -269,6 +270,13 @@ jobs:
           ./bootstrap.sh 
           ./b2 
           cd ..
+
+      # Retrieve ccache    
+      - name: Retrieve ccache
+        uses: actions/cache@v4
+        with:
+          path: .ccache
+          key: ccache-osx    
 
       # Configure project with cmake
       - name: Configure
