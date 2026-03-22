@@ -517,22 +517,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Install Clcache
-      - name: Setup clcache
-        run: pip install clcache
-
       # Checkout repository and submodules  
       - name: Checkout repository and submodules
         uses: actions/checkout@v4
         with:
           submodules: recursive
-
-      # Retrive Clcache
-      - name: Retrieve clcache
-        uses: actions/cache@v4
-        with:
-          path: clcache
-          key: clcache-windows
 
       # Install OpenSSL
       - name: Install OpenSSL
