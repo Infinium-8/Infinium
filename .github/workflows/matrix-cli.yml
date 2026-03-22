@@ -50,7 +50,7 @@ jobs:
           tar -xjf boost_1_86_0.tar.bz2
           cd boost_1_86_0
           ./bootstrap.sh --with-libraries=system,filesystem,thread,date_time,chrono,regex,serialization,atomic,program_options,locale,timer,log
-          ./b2 cxxflags="-std=c++17"
+          ./b2 toolset=gcc-9
           cd ..
 
       # Install OpenSSL
