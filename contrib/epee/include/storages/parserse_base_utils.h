@@ -26,7 +26,8 @@
 
 
 
-#pragma once 
+#pragma once
+#define NOMINMAX 
 #include <algorithm>
 
 namespace epee 
