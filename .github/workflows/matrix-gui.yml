@@ -411,7 +411,7 @@ jobs:
  # Mac builds on Catalina VM
   macos_build:
     name: macOS
-    runs-on: macos-13
+    runs-on: macos-15-intel
     env:
       LABEL: osx
       CC: /usr/local/opt/llvm@15/bin/clang
@@ -434,9 +434,9 @@ jobs:
        # Install Boost
       - name: Install Boost
         run: |    
-          curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.bz2
-          tar -xjf boost_1_80_0.tar.bz2
-          cd boost_1_80_0
+          curl -OL https://archives.boost.io/release/1.86.0/source/boost_1_86_0.tar.bz2
+          tar -xjf boost_1_86_0.tar.bz2
+          cd boost_1_86_0
           ./bootstrap.sh 
           ./b2 
           cd ..
@@ -463,7 +463,7 @@ jobs:
       - name: Configure
         run: |
           mkdir build && cd build
-          cmake -D BOOST_ROOT=/Users/runner/work/Infinium/Infinium/boost_1_80_0 -D BOOST_LIBRARYDIR=/Users/runner/work/Infinium/Infinium/boost_1_80_0/stage/lib  -D OPENSSL_ROOT_DIR=/usr/local/opt/openssl -D CMAKE_PREFIX_PATH=/Users/runner/work/Infinium/Qt/5.12.12/clang_64 -D BUILD_GUI=ON -D CMAKE_BUILD_TYPE=Release -D BUILD_TESTS=OFF ..
+          cmake -D CMAKE_POLICY_VERSION_MINIMUM=3.5 -D BOOST_ROOT=/Users/runner/work/Infinium/Infinium/boost_1_86_0 -D BOOST_LIBRARYDIR=/Users/runner/work/Infinium/Infinium/boost_1_86_0/stage/lib  -D OPENSSL_ROOT_DIR=/usr/local/opt/openssl -D CMAKE_PREFIX_PATH=/Users/runner/work/Infinium/Qt/5.12.12/clang_64 -D BUILD_GUI=ON -D CMAKE_BUILD_TYPE=Release -D BUILD_TESTS=OFF ..
       
       # Build for macOS
       - name: Build
