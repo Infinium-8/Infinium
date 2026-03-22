@@ -172,7 +172,7 @@ namespace misc_utils
               {
                 bool ok = false;
                 size_t chars_left = buf_end - it - 1;
-                size_t chars_to_get = std::min(static_cast<size_t>(4), chars_left); // in [0, 4]
+                size_t chars_to_get = (std::min)(static_cast<size_t>(4), chars_left); // in [0, 4]
                 char tmp[10] = {0};
                 memcpy(tmp, &(*(it+1)), chars_to_get);
                 it = it + chars_to_get; // move forward to skip 0..4 digits
