@@ -333,17 +333,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Setup clcache
-      - name: Setup clcache
-        run: pip install clcache
-
-      # Retrieve clcache
-      - name: Retrieve clcache
-        uses: actions/cache@v4
-        with:
-          path: clcache
-          key: clcache-windows
-
       # Install OpenSSH
       - name: Install OpenSSH
         run: choco install openssh 
@@ -367,7 +356,6 @@ jobs:
       # Build for Windows
       - name: Build
         run: |
-          $env:CLCACHE_DIR = "$env:GITHUB_WORKSPACE\clcache"
           $env:PATH = "$env:PATH;$env:MSBUILD_PATH"
           cd build
           MSBuild infinium.sln /p:Configuration=Release /t:Build
