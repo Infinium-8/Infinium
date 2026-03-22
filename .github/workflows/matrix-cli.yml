@@ -245,7 +245,7 @@ jobs:
   # Mac builds on Catalina VM
   macos_build:
     name: macOS
-    runs-on: macos-13
+    runs-on: macos-14-large
     env:
       LABEL: osx
       CC: /usr/local/opt/llvm@15/bin/clang
