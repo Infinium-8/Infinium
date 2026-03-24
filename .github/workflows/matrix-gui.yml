@@ -25,7 +25,7 @@ jobs:
             package_name: 'gcc-11 g++11'
             cc: gcc-11
             cxx: g++-11
-            label: ubuntu-20.04
+            label: ubuntu
             deployable: true
           - build_name: 'Ubuntu 22.04 - GCC 12'
             package_name: 'gcc-12 g++-12'
@@ -249,8 +249,8 @@ jobs:
             package_name: 'gcc-12 g++-12'
             cc: gcc-12
             cxx: g++-12
-            label: ubuntu-24.04
-            deployable: true
+            label: ubuntu-24.04-linux-gcc-12
+            deployable: false
           - build_name: 'Ubuntu 24.04 - GCC 13'
             package_name: 'gcc-13 g++-13'
             cc: gcc-13
@@ -504,10 +504,8 @@ jobs:
         with:
           name: Infinium-Gui-${{ github.sha }}-${{ env.LABEL }}
           path: ./build/src/Infinium-Gui-${{ github.sha }}
-
-
                               
-  # Windows 10        
+  # Windows 11        
   windows_build:
     name: Windows
     runs-on: windows-latest
