@@ -203,7 +203,9 @@ else()
   find_package(Boost 1.70 REQUIRED COMPONENTS system filesystem thread timer date_time chrono regex serialization atomic program_options locale)
 endif()
 
-
+if(APPLE)
+    add_compile_options(-Wno-elaborated-enum-base)
+endif()
 
 message(STATUS "Boost: ${Boost_VERSION} from ${Boost_LIBRARY_DIRS}")
 

@@ -1,10 +1,12 @@
-// Copyright (c) 2023-2024 Infinium Developers
+// Copyright (c) 2023-2026 Infinium Developers
 // Copyright (c) 2014-2018 The Louisdor Project
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #pragma once 
 #include <string>
+#include <cstdint>
+
 namespace currency
 {
 #pragma pack(push, 1)

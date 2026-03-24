@@ -13,25 +13,25 @@ jobs:
 # Common Build matrix for builds on Ubuntu Lasted VM       
   ubuntu_build:
     name: ${{ matrix.build_name }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
       
         # Add more compilers here if you need them
-        build_name: ['Ubuntu 20.04 - GCC 9', 'Ubuntu 20.04 - GCC 10']
+        build_name: ['Ubuntu 22.04 - GCC 11', 'Ubuntu 22.04 - GCC 12']
         include:
-          - build_name: 'Ubuntu 20.04 - GCC 9'
-            package_name: 'gcc-9 g++-9'
-            cc: gcc-9
-            cxx: g++-9
+          - build_name: 'Ubuntu 22.04 - GCC 11'
+            package_name: 'gcc-11 g++11'
+            cc: gcc-11
+            cxx: g++-11
             label: ubuntu-20.04
             deployable: true
-          - build_name: 'Ubuntu 20.04 - GCC 10'
-            package_name: 'gcc-10 g++-10'
-            cc: gcc-10
-            cxx: g++-10
-            label: ubuntu-20.04-linux-gcc-10
+          - build_name: 'Ubuntu 22.04 - GCC 12'
+            package_name: 'gcc-12 g++-12'
+            cc: gcc-12
+            cxx: g++-12
+            label: ubuntu-22.04-linux-gcc-12
             deployable: false
     env:
       CCACHE_DIR: $GITHUB_WORKSPACE/.ccache
@@ -52,12 +52,12 @@ jobs:
           sudo apt upgrade
           sudo apt-get install -y curl build-essential python3-dev autotools-dev libicu-dev libbz2-dev cmake git screen checkinstall zlib1g-dev fuse libfuse2 libxcb-xinerama0 ${{ matrix.package_name }}   
 
-      # Install Boost 
+      # Install Boost
       - name: Install Boost
         run: |
-          curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.70.0/source/boost_1_70_0.tar.bz2
-          tar -xjf boost_1_70_0.tar.bz2
-          cd boost_1_70_0
+          curl -OL https://archives.boost.io/release/1.86.0/source/boost_1_86_0.tar.bz2
+          tar -xjf boost_1_86_0.tar.bz2
+          cd boost_1_86_0
           ./bootstrap.sh --with-libraries=system,filesystem,thread,date_time,chrono,regex,serialization,atomic,program_options,locale,timer,log
           ./b2
           cd ..
@@ -103,7 +103,7 @@ jobs:
           CXX: ${{ matrix.cxx }}
         run: |
           mkdir build && cd build
-          cmake -D STATIC=TRUE -D BOOST_ROOT=/home/runner/work/Infinium/Infinium/boost_1_70_0 -D OPENSSL_ROOT_DIR=/home/runner/work/Infinium/Infinium/openssl -D CMAKE_PREFIX_PATH=/home/runner/work/Infinium/Qt/5.12.12/gcc_64 -D BUILD_GUI=ON -D CMAKE_BUILD_TYPE=Release -D BUILD_TESTS=OFF ..
+          cmake -D STATIC=TRUE -D BOOST_ROOT=/home/runner/work/Infinium/Infinium/boost_1_86_0 -D OPENSSL_ROOT_DIR=/home/runner/work/Infinium/Infinium/openssl -D CMAKE_PREFIX_PATH=/home/runner/work/Infinium/Qt/5.12.12/gcc_64 -D BUILD_GUI=ON -D CMAKE_BUILD_TYPE=Release -D BUILD_TESTS=OFF ..
       
       # Build for linux
       - name: Build
@@ -237,25 +237,25 @@ jobs:
 
   ubuntu_now_build:
     name: ${{ matrix.build_name }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
       
         # Add more compilers here if you need them
-        build_name: ['Ubuntu 22.04 - GCC 11', 'Ubuntu 22.04 - GCC 12']
+        build_name: ['Ubuntu 24.04 - GCC 12', 'Ubuntu 24.04 - GCC 13']
         include:
-          - build_name: 'Ubuntu 22.04 - GCC 11'
-            package_name: 'gcc-11 g++-11'
-            cc: gcc-11
-            cxx: g++-11
-            label: ubuntu-22.04
-            deployable: true
-          - build_name: 'Ubuntu 22.04 - GCC 12'
+          - build_name: 'Ubuntu 24.04 - GCC 12'
             package_name: 'gcc-12 g++-12'
             cc: gcc-12
             cxx: g++-12
-            label: ubuntu-22.04-linux-gcc-12
+            label: ubuntu-24.04
+            deployable: true
+          - build_name: 'Ubuntu 24.04 - GCC 13'
+            package_name: 'gcc-13 g++-13'
+            cc: gcc-13
+            cxx: g++-13
+            label: ubuntu-24.04-linux-gcc-13
             deployable: false
     env:
       CCACHE_DIR: $GITHUB_WORKSPACE/.ccache
@@ -279,9 +279,9 @@ jobs:
       # Install Boost
       - name: Install Boost
         run: |
-          curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.bz2
-          tar -xjf boost_1_76_0.tar.bz2
-          cd boost_1_76_0
+          curl -OL https://archives.boost.io/release/1.86.0/source/boost_1_86_0.tar.bz2
+          tar -xjf boost_1_86_0.tar.bz2
+          cd boost_1_86_0
           ./bootstrap.sh --with-libraries=system,filesystem,thread,date_time,chrono,regex,serialization,atomic,program_options,locale,timer,log
           ./b2
           cd ..
@@ -327,7 +327,7 @@ jobs:
           CXX: ${{ matrix.cxx }}
         run: |
           mkdir build && cd build
-          cmake -D STATIC=TRUE -D BOOST_ROOT=/home/runner/work/Infinium/Infinium/boost_1_76_0 -D OPENSSL_ROOT_DIR=/home/runner/work/Infinium/Infinium/openssl -D CMAKE_PREFIX_PATH=/home/runner/work/Infinium/Qt/5.12.12/gcc_64 -D BUILD_GUI=ON -D CMAKE_BUILD_TYPE=Release -D BUILD_TESTS=OFF ..
+          cmake -D STATIC=TRUE -D BOOST_ROOT=/home/runner/work/Infinium/Infinium/boost_1_86_0 -D OPENSSL_ROOT_DIR=/home/runner/work/Infinium/Infinium/openssl -D CMAKE_PREFIX_PATH=/home/runner/work/Infinium/Qt/5.12.12/gcc_64 -D BUILD_GUI=ON -D CMAKE_BUILD_TYPE=Release -D BUILD_TESTS=OFF ..
       
       # Build for linux
       - name: Build
@@ -411,11 +411,11 @@ jobs:
  # Mac builds on Catalina VM
   macos_build:
     name: macOS
-    runs-on: macos-13
+    runs-on: macos-15-intel
     env:
       LABEL: osx
-      CC: /usr/local/opt/llvm@15/bin/clang
-      CXX: /usr/local/opt/llvm@15/bin/clang++
+      CC: /usr/local/opt/llvm@17/bin/clang
+      CXX: /usr/local/opt/llvm@17/bin/clang++
       CCACHE_DIR: $GITHUB_WORKSPACE/.ccache
     steps:
       - uses: actions/checkout@v4
@@ -429,14 +429,14 @@ jobs:
       # Fetch Dependencies
       - name: Dependencies
         run: |
-          brew install --force ccache llvm@15 cmake
+          brew install --force ccache llvm@17 cmake
          
        # Install Boost
       - name: Install Boost
         run: |    
-          curl -OL https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.bz2
-          tar -xjf boost_1_80_0.tar.bz2
-          cd boost_1_80_0
+          curl -OL https://archives.boost.io/release/1.86.0/source/boost_1_86_0.tar.bz2
+          tar -xjf boost_1_86_0.tar.bz2
+          cd boost_1_86_0
           ./bootstrap.sh 
           ./b2 
           cd ..
@@ -463,7 +463,7 @@ jobs:
       - name: Configure
         run: |
           mkdir build && cd build
-          cmake -D BOOST_ROOT=/Users/runner/work/Infinium/Infinium/boost_1_80_0 -D BOOST_LIBRARYDIR=/Users/runner/work/Infinium/Infinium/boost_1_80_0/stage/lib  -D OPENSSL_ROOT_DIR=/usr/local/opt/openssl -D CMAKE_PREFIX_PATH=/Users/runner/work/Infinium/Qt/5.12.12/clang_64 -D BUILD_GUI=ON -D CMAKE_BUILD_TYPE=Release -D BUILD_TESTS=OFF ..
+          cmake -D CMAKE_POLICY_VERSION_MINIMUM=3.5 -D BOOST_ROOT=/Users/runner/work/Infinium/Infinium/boost_1_86_0 -D BOOST_LIBRARYDIR=/Users/runner/work/Infinium/Infinium/boost_1_86_0/stage/lib  -D OPENSSL_ROOT_DIR=/usr/local/opt/openssl -D CMAKE_PREFIX_PATH=/Users/runner/work/Infinium/Qt/5.12.12/clang_64 -D BUILD_GUI=ON -D CMAKE_BUILD_TYPE=Release -D BUILD_TESTS=OFF ..
       
       # Build for macOS
       - name: Build
@@ -517,22 +517,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Install Clcache
-      - name: Setup clcache
-        run: pip install clcache
-
       # Checkout repository and submodules  
       - name: Checkout repository and submodules
         uses: actions/checkout@v4
         with:
           submodules: recursive
-
-      # Retrive Clcache
-      - name: Retrieve clcache
-        uses: actions/cache@v4
-        with:
-          path: clcache
-          key: clcache-windows
 
       # Install OpenSSL
       - name: Install OpenSSL
@@ -549,20 +538,20 @@ jobs:
           modules: 'debug_info qtcharts qtdatavis3d qtnetworkauth qtpurchasing qtscript qtvirtualkeyboard qtwebengine qtwebglplugin'
 
       # Install boost
-      - name: Install Boost 1.82.0
+      - name: Install Boost 1.86.0
         run: |
-          $link = "https://boost.teeks99.com/bin/1.82.0/boost_1_82_0-msvc-14.3-64.exe"
+          $link = "https://archives.boost.io/release/1.86.0/binaries/boost_1_86_0-msvc-14.2-64.exe"
           $path = "C:\boost.exe"
           [Net.WebClient]::new().DownloadFile($link, $path)
-          Start-Process C:\boost.exe -ArgumentList "/DIR=C:\local\boost_1_82_0","/VERYSILENT" -Wait
-          Get-ChildItem C:\local\boost_1_82_0
+          Start-Process C:\boost.exe -ArgumentList "/DIR=C:\local\boost_1_86_0","/VERYSILENT" -Wait
+          Get-ChildItem C:\local\boost_1_86_0
 
       # Configure project with cmake
       - name: Configure
         run: |
           mkdir build
           cd build
-          cmake -G "Visual Studio 17 2022" -A x64 -T host=x64 .. -DBUILD_GUI=ON -D CMAKE_PREFIX_PATH=D:\a\Infinium\Qt\5.12.12\msvc2017_64 -D BOOST_ROOT=C:/local/boost_1_82_0 -D BOOST_LIBRARYDIR="C:/local/boost_1_82_0/lib64-msvc-14.1"  -D OPENSSL_ROOT_DIR="C:/Program Files/OpenSSL" -D STATIC=OFF
+          cmake -G "Visual Studio 17 2022" -A x64 -T v142,host=x64 .. -DBUILD_GUI=ON -D CMAKE_PREFIX_PATH=D:\a\Infinium\Qt\5.12.12\msvc2017_64 -D BOOST_ROOT=C:/local/boost_1_86_0 -D BOOST_LIBRARYDIR="C:/local/boost_1_86_0/lib64-msvc-14.2"  -D OPENSSL_ROOT_DIR="C:/Program Files/OpenSSL" -D STATIC=OFF
      
       # Build for Windows
       - name: Build
