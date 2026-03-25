@@ -316,7 +316,7 @@ namespace nodetool
     ADD_HARDCODED_SEED_NODE("92.118.232.24", P2P_DEFAULT_PORT);
     ADD_HARDCODED_SEED_NODE("185.252.215.234", P2P_DEFAULT_PORT);
     ADD_HARDCODED_SEED_NODE("138.124.183.11", P2P_DEFAULT_PORT);
-    ADD_HARDCODED_SEED_NODE("superblockchain.zapto.org", "19042");
+    ADD_HARDCODED_SEED_NODE("superblockchain.zapto.org", 19042);
     
 #else
     //TODO:
@@ -324,7 +324,7 @@ namespace nodetool
     ADD_HARDCODED_SEED_NODE("92.118.232.24", P2P_DEFAULT_PORT);
     ADD_HARDCODED_SEED_NODE("185.252.215.234", P2P_DEFAULT_PORT);
     ADD_HARDCODED_SEED_NODE("138.124.183.11", P2P_DEFAULT_PORT);
-    ADD_HARDCODED_SEED_NODE("superblockchain.zapto.org", "19042");
+    ADD_HARDCODED_SEED_NODE("superblockchain.zapto.org", 19042);
 #endif
 
     bool res = handle_command_line(vm);
