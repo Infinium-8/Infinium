@@ -1,4 +1,14 @@
-cmake_minimum_required(VERSION 2.8.6)
+cmake_minimum_required(VERSION 3.10)
+
+# CMake >= 3.30 avisa de que el modulo FindBoost esta obsoleto (CMP0167) y, con Boost recientes,
+# de que "New Boost version may have incorrect or missing dependencies".
+# Seguimos usando FindBoost (OLD). CMAKE_POLICY_DEFAULT_* tambien cubre los subdirectorios
+# (p.ej. contrib/tor-connect) que llaman a su propio cmake_minimum_required.
+if(POLICY CMP0167)
+  cmake_policy(SET CMP0167 OLD)
+  set(CMAKE_POLICY_DEFAULT_CMP0167 OLD)
+endif()
+set(Boost_NO_WARN_NEW_VERSIONS ON)
 
 PROJECT(infinium)
 
@@ -142,7 +152,7 @@ else()
     set(STATIC_ASSERT_FLAG "-Dstatic_assert=_Static_assert")
   endif()
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_GNU_SOURCE ${MINGW_FLAG} ${STATIC_ASSERT_FLAG} ${WARNINGS} ${C_WARNINGS} ${ARCH_FLAG}")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive -ftemplate-depth-1024 -std=c++11 -D_GNU_SOURCE ${APPLE_FLAG} ${MINGW_FLAG} ${WARNINGS} ${CXX_WARNINGS} ${ARCH_FLAG}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive -ftemplate-depth-1024 -std=c++14 -D_GNU_SOURCE ${APPLE_FLAG} ${MINGW_FLAG} ${WARNINGS} ${CXX_WARNINGS} ${ARCH_FLAG}")
   if (NOT APPLE AND NOT MSVC)
     if (CLANG)
       set(LLVM_USE_LINKER "gold")
@@ -200,7 +210,7 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Android")
   set(Boost_LIBRARY_DIRS "${Boost_LIBRARY_DIRS}/${CMAKE_ANDROID_ARCH_ABI}/")
   set(Boost_LIBRARIES "${Boost_LIBRARY_DIRS}libboost_system.a;${Boost_LIBRARY_DIRS}libboost_filesystem.a;${Boost_LIBRARY_DIRS}libboost_thread.a;${Boost_LIBRARY_DIRS}libboost_timer.a;${Boost_LIBRARY_DIRS}libboost_date_time.a;${Boost_LIBRARY_DIRS}libboost_chrono.a;${Boost_LIBRARY_DIRS}libboost_regex.a;${Boost_LIBRARY_DIRS}libboost_serialization.a;${Boost_LIBRARY_DIRS}libboost_atomic.a;${Boost_LIBRARY_DIRS}libboost_program_options.a")
 else()
-  find_package(Boost 1.70 REQUIRED COMPONENTS system filesystem thread timer date_time chrono regex serialization atomic program_options locale)
+  find_package(Boost 1.70 REQUIRED COMPONENTS filesystem thread timer date_time chrono regex serialization atomic program_options locale)
 endif()
 
 if(APPLE)
@@ -224,7 +234,7 @@ elseif(NOT MSVC)
 endif()
 
 if(BUILD_GUI)
-  cmake_minimum_required(VERSION 2.8.11)
+  cmake_minimum_required(VERSION 3.10)
   find_package(Qt5Widgets REQUIRED)  
 endif()
 

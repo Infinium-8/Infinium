@@ -80,7 +80,8 @@
 
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/asio/io_service.hpp>
+#include <boost/asio/io_context.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
@@ -139,7 +140,7 @@ using std::pair;
 using std::unique_ptr;
 using std::make_shared;
 
-#define  TEST_ERR(err,connectFunc) if (err) {net::post(net::detail::bind_handler(connectFunc, err));return;}
+#define  TEST_ERR(err,connectFunc) if (err) {net::post(net::system_executor(), boost::bind(connectFunc, err));return;}
 
 class Util {
 private:
